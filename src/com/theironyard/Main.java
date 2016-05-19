@@ -13,8 +13,12 @@ public class Main {
         player.chooseName();
         player.chooseWeapon();
         player.chooseLocation();
+        player.findItem("armor");
+        player.findItem("potion");
 
-        System.out.println("Type a number...");
+
+
+        /*System.out.println("Type a number...");
 
         String num = scanner.nextLine();
         int numInt = Integer.valueOf(num);
@@ -23,6 +27,7 @@ public class Main {
             System.out.println("That's a negative number!");
         } else {
             System.out.println("That's a positive number!");
-        }
+        }*/
+
     }
 }
