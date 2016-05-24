@@ -25,7 +25,7 @@ public class Player extends Character{
     }
 
     public void chooseWeapon() throws Exception {
-        System.out.println("Choose your weapon [sword/mace]");
+        System.out.println("Choose your weapon [sword/mace]!!!!!!");
 
         weapon = Main.nextLine();
         if (weapon.equalsIgnoreCase("sword")){
