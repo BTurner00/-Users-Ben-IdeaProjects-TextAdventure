@@ -1,26 +1,39 @@
 package com.theironyard;
 
+import jodd.json.JsonParser;
 import jodd.json.JsonSerializer;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
+
+    static final String SAVE_FILE= "game.json";
     static Scanner scanner = new Scanner(System.in);
-    static Player player = new Player();
+    static Player player;
 
     public static void main(String[] args) throws Exception {
+
+        player = loadGame();
+        if (player == null) {
+            player = new Player();
+            System.out.println("Starting a new game.");
+        }
 
         System.out.println("Welcome traveller!");
 
 
-        player.chooseName();
-        player.chooseWeapon();
-        player.chooseLocation();
-        player.findItem("armor");
-        player.findItem("potion");
+        if (player.name == null) player.chooseName();
+        if (player.weapon == null) player.chooseWeapon();
+        if (player.location == null) player.chooseLocation();
+        if (player.items.isEmpty()) {
+            player.findItem("armor");
+            player.findItem("potion");
+        }
+
 
         Enemy ogre = new Enemy("Ogre", 10, 10);
         player.battle(ogre);
@@ -67,7 +80,7 @@ public class Main {
         JsonSerializer serializer = new JsonSerializer();
         String json = serializer.include("*").serialize(player);
 
-        File f = new File("game.json");
+        File f = new File(SAVE_FILE);
         try {
             FileWriter fw = new FileWriter(f);
             fw.write(json);
@@ -76,6 +89,19 @@ public class Main {
             e.printStackTrace();
         }
 
+    }
+
+    public static Player loadGame() {
+        File f = new File(SAVE_FILE);
+        try {
+            Scanner scanner = new Scanner(f);
+            scanner.useDelimiter("//Z");
+            String contents = scanner.next();
+            JsonParser parser = new JsonParser();
+            return parser.parse(contents, Player.class);
+        } catch (FileNotFoundException e) {
+        }
+        return null;
     }
 }
 
