@@ -60,4 +60,16 @@ public class Player extends Character{
             System.out.printf("You now have %s items in your inventory\n", items.size());
         }
     }
+
+    public String getWeapon() {
+        return weapon;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public ArrayList<String> getItems() {
+        return items;
+    }
 }
